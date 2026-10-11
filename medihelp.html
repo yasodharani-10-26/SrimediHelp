@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffffff">
+
+<title>MediHelp - Emergency Health Assist</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --red: #d71920;
+    --red-dark: #b51218;
+    --text: #292832;
+    --muted: #777784;
+    --background: #faf9fb;
+    --border: #f0e9eb;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 85px;
+}
+
+button, a, textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* HEADER */
+
+.navbar {
+    height: 70px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--red);
+    color: white;
+    display: grid;
+    place-items: center;
+}
+
+.call-button {
+    background: var(--red);
+    color: white;
+    padding: 11px 17px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 24px 20px;
+}
+
+/* SOS SECTION */
+
+.hero {
+    text-align: center;
+    padding: 25px 0 35px;
+}
+
+.sos-button {
+    width: 190px;
+    height: 190px;
+    border: none;
+    border-radius: 50%;
+    background: var(--red);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    margin: auto;
+    font-size: 31px;
+    font-weight: 800;
+    box-shadow: 0 12px 35px #d7192026;
+    transition: transform .2s;
+}
+
+.sos-button:hover {
+    background: var(--red-dark);
+    transform: scale(1.025);
+}
+
+.warning-icon {
+    font-size: 43px;
+}
+
+.hero-description {
+    max-width: 300px;
+    margin: 23px auto 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* FEATURE CARDS */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0 38px;
+}
+
+.feature-card {
+    min-width: 0;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 17px;
+    min-height: 155px;
+    padding: 18px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    text-align: center;
+    color: var(--text);
+}
+
+.feature-icon {
+    color: #a34b51;
+    font-size: 29px;
+}
+
+.feature-card strong {
+    font-size: 13px;
+}
+
+.feature-card small {
+    max-width: 130px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* QUICK SYMPTOMS */
+
+.symptoms-section h2 {
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.symptoms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.symptom-card {
+    min-height: 120px;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px 5px;
+    transition: transform .2s;
+}
+
+.symptom-card:hover {
+    transform: translateY(-3px);
+}
+
+.symptom-card span {
+    font-size: 31px;
+}
+
+.symptom-card strong {
+    font-size: 13px;
+}
+
+.chest {
+    color: #a34249;
+    background: #fff7f7;
+}
+
+.head {
+    color: #7650aa;
+    background: #faf6ff;
+}
+
+.fracture {
+    color: #a66a4b;
+    background: #fff8f3;
+}
+
+.breathing {
+    color: #526bb0;
+    background: #f4f7ff;
+}
+
+.fever {
+    color: #9b7a39;
+    background: #fffbed;
+}
+
+.seizure {
+    color: #3f8463;
+    background: #f1fbf5;
+}
+
+/* CONTENT SCREENS */
+
+.back-button {
+    border: none;
+    background: transparent;
+    color: var(--red);
+    font-weight: bold;
+    margin-bottom: 25px;
+    padding: 8px 0;
+}
+
+.content-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 22px;
+    font-size: 14px;
+}
+
+.location-status {
+    background: #f1f3f7;
+    color: #626779;
+    padding: 13px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+}
+
+.secondary-button {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 22px;
+    font-weight: bold;
+}
+
+#symptomsInput {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: white;
+    outline: none;
+    margin: 10px 0 17px;
+    line-height: 1.6;
+}
+
+#symptomsInput:focus {
+    border-color: #d98b8f;
+}
+
+.primary-button {
+    width: 100%;
+    padding: 16px;
+    background: var(--red);
+    border: none;
+    color: white;
+    border-radius: 13px;
+    font-weight: bold;
+}
+
+.emergency-call {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #94484d;
+    background: #fff5f5;
+    padding: 17px 10px;
+    border: 1px solid #f6e4e4;
+    border-radius: 13px;
+    margin-top: 18px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.help-result {
+    padding: 18px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.aid-card, .hospital-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 19px;
+    margin-bottom: 13px;
+}
+
+.aid-card h3, .hospital-card h3 {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.aid-card p, .hospital-card p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.hospital-card a {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--red);
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 72px;
+    padding: 9px 12px max(9px, env(safe-area-inset-bottom));
+    background: #fffffff7;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-item {
+    min-width: 75px;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: #85828c;
+}
+
+.nav-item span {
+    font-size: 25px;
+}
+
+.nav-item small {
+    font-size: 11px;
+}
+
+.nav-item.active {
+    color: var(--red);
+}
+
+/* NOTIFICATIONS */
+
+.toast {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 90px;
+    z-index: 30;
+    max-width: 500px;
+    margin: auto;
+    background: #292832;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    box-shadow: 0 8px 30px #0002;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (min-width: 700px) {
+    .hero {
+        padding-top: 40px;
+        padding-bottom: 45px;
+    }
+
+    .sos-button {
+        width: 210px;
+        height: 210px;
+    }
+
+    .symptom-card {
+        min-height: 145px;
+    }
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    .sos-button {
+        width: 165px;
+        height: 165px;
+    }
+
+    .feature-grid,
+    .symptoms-grid {
+        gap: 8px;
+    }
+
+    .symptom-card strong {
+        font-size: 11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">♥</span>
+        <span>MediHelp</span>
+    </div>
+
+    <a href="tel:112" class="call-button">☎ 112</a>
+</header>
+
+<main class="container">
+
+    <!-- HOME -->
+
+    <section id="homeScreen">
+
+        <div class="hero">
+
+            <button id="sosButton" class="sos-button">
+                <span class="warning-icon">⚠</span>
+                <span>SOS</span>
+            </button>
+
+            <p class="hero-description">
+                Tap for immediate health assistance
+                & nearby hospitals
+            </p>
+
+        </div>
+
+        <div class="feature-grid">
+
+            <button class="feature-card" id="firstAidButton">
+                <span class="feature-icon">♧</span>
+                <strong>First Aid Tips</strong>
+                <small>Instant relief suggestions</small>
+            </button>
+
+            <button class="feature-card" id="hospitalButton">
+                <span class="feature-icon">◎</span>
+                <strong>Nearby Hospitals</strong>
+                <small>GPS-based hospital finder</small>
+            </button>
+
+            <div class="feature-card">
+                <span class="feature-icon">◷</span>
+                <strong>Save Time</strong>
+                <small>Every second matters</small>
+            </div>
+
+        </div>
+
+        <section class="symptoms-section">
+
+            <h2>QUICK SYMPTOMS</h2>
+
+            <div class="symptoms-grid">
+
+                <button class="symptom-card chest"
+                        data-symptom="Chest Pain">
+                    <span>♡</span>
+                    <strong>Chest Pain</strong>
+                </button>
+
+                <button class="symptom-card head"
+                        data-symptom="Head Injury">
+                    <span>♧</span>
+                    <strong>Head Injury</strong>
+                </button>
+
+                <button class="symptom-card fracture"
+                        data-symptom="Fracture">
+                    <span>♢</span>
+                    <strong>Fracture</strong>
+                </button>
+
+                <button class="symptom-card breathing"
+                        data-symptom="Breathing Difficulty">
+                    <span>≋</span>
+                    <strong>Breathing</strong>
+                </button>
+
+                <button class="symptom-card fever"
+                        data-symptom="High Fever">
+                    <span>♨</span>
+                    <strong>High Fever</strong>
+                </button>
+
+                <button class="symptom-card seizure"
+                        data-symptom="Seizure">
+                    <span>ϟ</span>
+                    <strong>Seizure</strong>
+                </button>
+
+            </div>
+        </section>
+    </section>
+
+    <!-- SYMPTOM SCREEN -->
+
+    <section id="symptomScreen" class="hidden">
+
+        <button class="back-button" id="backButton">
+            ← Back to Home
+        </button>
+
+        <h1 class="content-title">What's wrong?</h1>
+
+        <p class="subtitle">
+            Describe your symptoms to find appropriate next steps.
+        </p>
+
+        <div id="locationStatus" class="location-status">
+            📍 Location unavailable
+        </div>
+
+        <button id="locationButton" class="secondary-button">
+            📍 Get My Location
+        </button>
+
+        <form id="symptomForm">
+
+            <label for="symptomsInput">
+                Describe your symptoms
+            </label>
+
+            <textarea
+                id="symptomsInput"
+                placeholder="Describe your symptoms..."
+                required
+                maxlength="1000"></textarea>
+
+            <button type="submit" class="primary-button">
+                ➤ Get Help Now
+            </button>
+
+        </form>
+
+        <a href="tel:112" class="emergency-call">
+            ☎ Life threatening? Call 112 NOW
+        </a>
+
+        <div id="helpResult" class="help-result hidden"></div>
+
+    </section>
+
+    <!-- FIRST AID SCREEN -->
+
+    <section id="firstAidScreen" class="hidden">
+
+        <button class="back-button" id="firstAidBack">
+            ← Back to Home
+        </button>
+
+        <h1 class="content-title">First Aid Tips</h1>
+
+        <div class="aid-card">
+            <h3>❤️ Chest Pain</h3>
+            <p>
+                Call emergency services immediately for new or severe
+                chest pain. Stop exertion and rest while waiting for help.
+            </p>
+        </div>
+
+        <div class="aid-card">
+            <h3>🌬️ Breathing Difficulty</h3>
+            <p>
+                Call emergency services for severe breathing difficulty.
+                Help the person sit comfortably and follow the
+                emergency dispatcher's instructions.
+            </p>
+        </div>
+
+        <div class="aid-card">
+            <h3>🦴 Suspected Fracture</h3>
+            <p>
+                Keep the injured area still and supported.
+                Do not attempt to straighten the bone.
+            </p>
+        </div>
+
+        <div class="aid-card">
+            <h3>🧠 Head Injury</h3>
+            <p>
+                Seek urgent medical care for a serious head injury.
+                Avoid unnecessary movement of the neck.
+            </p>
+        </div>
+
+        <div class="aid-card">
+            <h3>⚡ Seizure</h3>
+            <p>
+                Protect the person from nearby hazards. Do not restrain
+                them or put anything in their mouth. Time the seizure.
+                Call emergency services if it lasts 5 minutes or longer.
+            </p>
+        </div>
+
+        <div class="aid-card">
+            <h3>🌡️ High Fever</h3>
+            <p>
+                Encourage fluids if the person is fully alert and can
+                swallow. Seek urgent help for confusion or breathing
+                difficulty.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- HOSPITAL SCREEN -->
+
+    <section id="hospitalScreen" class="hidden">
+
+        <button class="back-button" id="hospitalBack">
+            ← Back to Home
+        </button>
+
+        <h1 class="content-title">Nearby Hospitals</h1>
+
+        <p class="subtitle">
+            Allow location access to search for nearby hospitals.
+        </p>
+
+        <button id="findHospitalsButton" class="primary-button">
+            📍 Find Nearby Hospitals
+        </button>
+
+        <div id="hospitalResults" style="margin-top:18px"></div>
+
+    </section>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <button class="nav-item active" id="homeNav">
+        <span>⌂</span>
+        <small>Home</small>
+    </button>
+
+    <button class="nav-item" id="firstAidNav">
+        <span>✚</span>
+        <small>First Aid</small>
+    </button>
+
+    <button class="nav-item" id="hospitalNav">
+        <span>◎</span>
+        <small>Hospitals</small>
+    </button>
+
+</nav>
+
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script>
+"use strict";
+
+const homeScreen = document.getElementById("homeScreen");
+const symptomScreen = document.getElementById("symptomScreen");
+const firstAidScreen = document.getElementById("firstAidScreen");
+const hospitalScreen = document.getElementById("hospitalScreen");
+
+const symptomsInput = document.getElementById("symptomsInput");
+const locationStatus = document.getElementById("locationStatus");
+const helpResult = document.getElementById("helpResult");
+const hospitalResults = document.getElementById("hospitalResults");
+const toast = document.getElementById("toast");
+
+let currentPosition = null;
+let toastTimeout;
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.add("hidden");
+    }, 3500);
+}
+
+function showScreen(screen, activeNav = null) {
+    [
+        homeScreen,
+        symptomScreen,
+        firstAidScreen,
+        hospitalScreen
+    ].forEach(item => item.classList.add("hidden"));
+
+    screen.classList.remove("hidden");
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.toggle("active", item === activeNav);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* NAVIGATION */
+
+document.getElementById("homeNav").addEventListener("click", () => {
+    showScreen(homeScreen, document.getElementById("homeNav"));
+});
+
+document.getElementById("firstAidNav").addEventListener("click", () => {
+    showScreen(firstAidScreen, document.getElementById("firstAidNav"));
+});
+
+document.getElementById("hospitalNav").addEventListener("click", () => {
+    showScreen(hospitalScreen, document.getElementById("hospitalNav"));
+});
+
+document.getElementById("backButton").addEventListener("click", () => {
+    showScreen(homeScreen, document.getElementById("homeNav"));
+});
+
+document.getElementById("firstAidBack").addEventListener("click", () => {
+    showScreen(homeScreen, document.getElementById("homeNav"));
+});
+
+document.getElementById("hospitalBack").addEventListener("click", () => {
+    showScreen(homeScreen, document.getElementById("homeNav"));
+});
+
+/* SOS */
+
+document.getElementById("sosButton").addEventListener("click", () => {
+    const proceed = confirm(
+        "Medical emergency?\n\n" +
+        "For a life-threatening emergency, call 112 now.\n\n" +
+        "Press OK to open emergency assistance."
+    );
+
+    if (proceed) {
+        showScreen(symptomScreen);
+    }
+});
+
+/* FIRST AID */
+
+document.getElementById("firstAidButton").addEventListener("click", () => {
+    showScreen(firstAidScreen, document.getElementById("firstAidNav"));
+});
+
+/* QUICK SYMPTOMS */
+
+document.querySelectorAll(".symptom-card").forEach(card => {
+    card.addEventListener("click", () => {
+        symptomsInput.value = card.dataset.symptom;
+        helpResult.classList.add("hidden");
+        showScreen(symptomScreen);
+        symptomsInput.focus();
+    });
+});
+
+/* GPS LOCATION */
+
+function requestLocation() {
+    if (!navigator.geolocation) {
+        locationStatus.textContent =
+            "Location is not supported by this browser.";
+
+        showToast("GPS is not supported by this browser.");
+        return;
+    }
+
+    locationStatus.textContent = "📍 Requesting location permission...";
+
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            currentPosition = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+
+            locationStatus.textContent = "📍 Location available.";
+
+            showToast("Location obtained successfully.");
+        },
+
+        error => {
+            currentPosition = null;
+
+            const messages = {
+                1: "Location permission denied. Enable it in settings.",
+                2: "Current location could not be determined.",
+                3: "Location request timed out. Try again."
+            };
+
+            locationStatus.textContent =
+                "📍 " + (messages[error.code] || "Location unavailable.");
+
+            showToast(locationStatus.textContent);
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 60000
+        }
+    );
+}
+
+document.getElementById("locationButton")
+    .addEventListener("click", requestLocation);
+
+/* SYMPTOM FORM */
+
+document.getElementById("symptomForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const symptoms = symptomsInput.value.trim();
+
+    if (!symptoms) {
+        showToast("Please describe your symptoms.");
+        return;
+    }
+
+    helpResult.replaceChildren();
+
+    const heading = document.createElement("h3");
+    heading.textContent = "Your next steps";
+
+    const description = document.createElement("p");
+    description.style.marginTop = "10px";
+    description.textContent =
+        "This app cannot diagnose medical conditions. " +
+        "For severe, sudden, or worsening symptoms, seek emergency care.";
+
+    const callLink = document.createElement("a");
+    callLink.href = "tel:112";
+    callLink.textContent = "Call 112 for an emergency";
+    callLink.style.display = "inline-block";
+    callLink.style.marginTop = "12px";
+    callLink.style.color = "#d71920";
+    callLink.style.fontWeight = "bold";
+
+    helpResult.append(heading, description, callLink);
+    helpResult.classList.remove("hidden");
+});
+
+/* HOSPITALS */
+
+document.getElementById("hospitalButton").addEventListener("click", () => {
+    showScreen(hospitalScreen, document.getElementById("hospitalNav"));
+});
+
+document.getElementById("findHospitalsButton")
+    .addEventListener("click", () => {
+
+        if (!currentPosition) {
+            requestLocation();
+
+            showToast(
+                "Allow location access, then tap Find Nearby Hospitals again."
+            );
+
+            return;
+        }
+
+        const { latitude, longitude } = currentPosition;
+
+        const mapsURL =
+            "https://www.google.com/maps/search/?api=1" +
+            "&query=" + encodeURIComponent(
+                "hospitals near " + latitude + "," + longitude
+            );
+
+        hospitalResults.replaceChildren();
+
+        const card = document.createElement("div");
+        card.className = "hospital-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = "Hospitals near your location";
+
+        const description = document.createElement("p");
+        description.textContent =
+            "Open Google Maps to view nearby hospitals. " +
+            "Check availability and emergency services directly.";
+
+        const link = document.createElement("a");
+        link.href = mapsURL;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Open Nearby Hospitals ↗";
+
+        card.append(heading, description, link);
+        hospitalResults.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
